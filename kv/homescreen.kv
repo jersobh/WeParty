@@ -1,0 +1,63 @@
+#:import utils kivy.utils
+
+
+<HomeScreen>:
+    FloatLayout:
+        width: 100
+        canvas:
+            Color:
+                rgb: utils.get_color_from_hex("#111111")
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            # Streak label
+            pos_hint: {"top": 1, "left": 1}
+            size_hint: 1, .1
+            text: 'My IP: '+app.get_my_ip()
+            id: streak_label
+        ScrollView:
+            pos_hint: {"top": .9, "left": 1}
+            size_hint: 1, .8
+            FloatLayout:
+                width: 100
+                # Banner grid
+                id: banner_grid
+                Accordion:
+                    orientation: 'vertical'
+                    AccordionItem:
+                        title: 'Defaul Network'
+                        Label:
+                            halign: 'center'
+                            valign: 'middle'
+                            text: 'No clients connected'
+                            text_size: self.width, None
+
+        GridLayout:
+            rows: 1
+            size_hint: 1, .1
+            pos_hint: {"top": .1, "right": 1}
+            Button:
+                text: "Settings"
+                canvas.before:
+                    Color:
+                        rgb: utils.get_color_from_hex("#111111") if self.state == 'normal' else utils.get_color_from_hex("#333333")
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                markup: True
+                on_release:
+                    app.change_screen("settings_screen", "Settings", direction='right', mode='push')
+            Button:
+                text: "Create Network"
+                canvas.before:
+                    Color:
+                        rgb: utils.get_color_from_hex("#111111") if self.state == 'normal' else utils.get_color_from_hex("#333333")
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                #size_hint: .33, .1
+                #pos_hint: {"top": .1, "right": 1}
+                #markup: True
+                on_release:
+                    app.change_screen("create_network_screen", "New network")

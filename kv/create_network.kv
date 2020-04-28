@@ -1,0 +1,49 @@
+<CreateNetworkScreen>:
+    canvas:
+        Color:
+            rgb: utils.get_color_from_hex("#111111")
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    FloatLayout:
+        canvas:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        TextInput:
+            id: adapter_name
+            hint_text: "Network name"
+            multiline: False
+            height: 30
+            size_hint: .6, None
+            pos_hint: {"top": .8, "right": .7}
+            on_text:
+                self.focus = not self.focus if "\n" in self.text else self.focus
+        Button:
+            text: "Create"
+            size_hint: .2, None
+            height: 30
+            pos_hint: {"top": .8, "right": .9}
+            on_release:
+                app.add_network(adapter_name.text)
+        Label:
+            id: add_friend_label
+            size_hint: .8, .1
+            pos_hint: {"top": .5, "right": .9}
+        Button:
+            text: "Back"
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#111111") if self.state == 'normal' else utils.get_color_from_hex("#333333")
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            size_hint: 1, .1
+            pos_hint: {"top": .1, "right": 1}
+            markup: True
+            on_release:
+                app.change_screen("home_screen", "WeParty", direction = 'left', mode='pop')
+
+
+
+

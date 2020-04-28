@@ -1,0 +1,35 @@
+#:include kv/homescreen.kv
+#:include kv/settings.kv
+#:include kv/create_network.kv
+
+GridLayout:
+    cols: 1
+    FloatLayout:
+        GridLayout:
+            canvas:
+                Color:
+                    rgb: utils.get_color_from_hex("#111111")
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            rows: 1
+            pos_hint: {"top": 1, "left": 1}
+            size_hint: 1, .20
+            Image:
+                source: "assets/logo.png"
+                id: avatar_image
+                size_hint: 0.5, 1
+                pos_hint: {"top": 1, "right": 0.5}
+        ScreenManager:
+            size_hint: 1, 0.8
+            pos_hint: {"top": .799, "left": 1}
+            id: screen_manager
+            HomeScreen:
+                name: "home_screen"
+                id: home_screen
+            SettingsScreen:
+                name: "settings_screen"
+                id: settings_screen
+            CreateNetworkScreen:
+                name: "create_network_screen"
+                id: create_network_screen
