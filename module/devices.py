@@ -1,29 +1,27 @@
-from tuntap import TunTap
+import pytun
 
 
 class ServerVirtualDevice:
 
-    def __init__(self):
-        self.tap = TunTap(nic_type="Tap", nic_name='srv-tap0')
-        self.tap.config(ip="192.168.1.10", mask="255.255.255.240", gateway="192.168.1.10")
+    def __init__(self, tname='srv-tap0', taddr='192.168.1.255', tmask='255.255.255.0', tmtu=1500):
+        self._tun = pytun.TunTapDevice(name=tname, flags=pytun.IFF_TAP | pytun.IFF_NO_PI)
+        self._tun.addr = taddr
+        self._tun.netmask = tmask
+        self._tun.mtu = tmtu
+        self._tun.up()
 
     def get_device(self):
-        try:
-            return self.tap
-        except Exception as error:
-            print(error)
-            return f'Error while creating device: {error}'
+        return self._tun
 
 
 class ClientVirtualDevice:
 
-    def __init__(self):
-        self.tap = TunTap(nic_type="Tap", nic_name='cli-tap1')
-        self.tap.config(ip="192.168.1.12", mask="255.255.255.240", gateway="192.168.1.10")
+    def __init__(self, tname='cli-tap0', taddr='192.168.1.10', tmask='255.255.255.0', tmtu=1500):
+        self._tun = pytun.TunTapDevice(name=tname, flags=pytun.IFF_TAP | pytun.IFF_NO_PI)
+        self._tun.addr = taddr
+        self._tun.netmask = tmask
+        self._tun.mtu = tmtu
+        self._tun.up()
 
     def get_device(self):
-        try:
-            return self.tap
-        except Exception as error:
-            print(error)
-            return f'Error while creating device: {error}'
+        return self._tun

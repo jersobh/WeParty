@@ -34,15 +34,14 @@ class MyServerFactory(WebSocketServerFactory):
             self.clients.remove(client)
 
     def broadcast(self, payload, isBinary):
-        if isBinary:
-            print("Binary message received: {0} bytes".format(len(payload)))
-        else:
-            print("Text message received: {0}".format(payload.decode('utf8')))
+        # if isBinary:
+            # print("Binary message received: {0} bytes".format(len(payload)))
+        # else:
+            # print("Text message received: {0}".format(payload.decode('utf8')))
 
         for c in self.clients:
             # c.sendMessage(msg.encode('utf8'))
             c.sendMessage(payload, isBinary)
-            print("message sent to {}".format(c.peer))
 
 
 class MyServerProtocol(WebSocketServerProtocol):
@@ -57,6 +56,7 @@ class MyServerProtocol(WebSocketServerProtocol):
 
     def onMessage(self, payload, isBinary):
         if isBinary:
+            print(payload)
             self.factory.device.write(payload)
             self.factory.broadcast(payload, isBinary)
         else:

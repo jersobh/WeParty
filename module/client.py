@@ -11,7 +11,7 @@ class MyClientProtocol(WebSocketClientProtocol):
 
     def __init__(self):
         super().__init__()
-        self.virtual_device = ClientVirtualDevice()
+        self.virtual_device = ClientVirtualDevice(taddr='192.168.1.3')
         self.device = self.virtual_device.get_device()
         self.b = None
 
@@ -19,7 +19,7 @@ class MyClientProtocol(WebSocketClientProtocol):
         while True:
             data = self.device.read(1500)
             print(data)
-            self.sendMessage(data, True)
+            self.sendMessage(data, isBinary=True)
 
     def onConnect(self, response):
         self.b = threading.Thread(name='background', target=factory.protocol.listen_tap(self))
@@ -33,21 +33,11 @@ class MyClientProtocol(WebSocketClientProtocol):
     def onOpen(self):
         print("WebSocket connection open.")
 
-        def hello():
-            register = {'type': 'register'}
-            self.sendMessage(json.dumps(register).encode('utf8'))
-            # self.sendMessage(b"\x00\x01\x03\x04", isBinary=True)
-            self.factory.loop.call_later(1, hello)
-
-        # start sending messages every second ..
-        #hello()
-
     def onMessage(self, payload, isBinary):
         if isBinary:
             self.device.write(payload)
-            print("Binary message received: {0} bytes".format(len(payload)))
         else:
-            print("Text message received: {0}".format(payload.decode('utf8')))
+            pass
 
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
