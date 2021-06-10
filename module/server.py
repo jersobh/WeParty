@@ -63,8 +63,6 @@ class MyServerProtocol(WebSocketServerProtocol):
             data = json.loads(payload.decode('utf8'))
             print("Text message received: {0}".format(payload.decode('utf8')))
 
-
-
     def onClose(self, wasClean, code, reason):
         self.factory.unregister(self)
         print("WebSocket connection closed: {0}".format(reason))

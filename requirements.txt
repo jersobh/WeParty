@@ -1,5 +1,5 @@
-pytun
-python_pytun==2.3.0
-autobahn==20.3.1
-Kivy==1.11.1
-requests==2.23.0
+python-pytun
+autobahn
+Kivy
+requests
+uvloop

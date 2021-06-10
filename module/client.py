@@ -2,9 +2,13 @@ import asyncio
 import json
 import threading
 from module.devices import ClientVirtualDevice
+from requests import get
 
 from autobahn.asyncio.websocket import WebSocketClientProtocol, \
     WebSocketClientFactory
+
+
+ip = get('https://api.ipify.org').text
 
 
 class MyClientProtocol(WebSocketClientProtocol):
@@ -44,11 +48,11 @@ class MyClientProtocol(WebSocketClientProtocol):
 
 
 if __name__ == '__main__':
-    factory = WebSocketClientFactory("ws://191.185.9.20:9000")
+    factory = WebSocketClientFactory(f"ws://127.0.0.1:9000")
     factory.protocol = MyClientProtocol
 
     loop = asyncio.get_event_loop()
-    coro = loop.create_connection(factory, '191.185.9.20', 9000)
+    coro = loop.create_connection(factory, '127.0.0.1', 9000)
     loop.run_until_complete(coro)
     loop.run_forever()
     loop.close()
